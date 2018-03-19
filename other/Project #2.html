@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!-- saved from url=(0085)https://pilot.wright.edu/content/2017-2018/432212-10377.201830/Projects/Project2.html -->
+<html lang="en" class="gr__pilot_wright_edu" style="overflow: visible;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project #2</title>
+<link rel="stylesheet" href="./Project #2_files/styles.css" type="text/css">
+
+<script type="text/javascript" src="./Project #2_files/MathML.js.download"></script><script type="text/javascript">document.addEventListener('DOMContentLoaded', function() { D2LMathML.DesktopInit('https://s.brightspace.com/lib/mathjax/2.6.1/MathJax.js?config=MML_HTMLorMML','https://s.brightspace.com/lib/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML%2cSafe'); });</script><script type="text/javascript">function lti_launch( vars ) { var query = ''; for(var key in vars) { if(query.length == 0) { query += '?' + key + '=' + encodeURIComponent(vars[key]); } else { query += '&' + key + '=' + encodeURIComponent(vars[key]); } } location.replace( '/d2l/customization/pearsonlti/6605/Launch' + query ); }</script></head>
+<body data-gr-c-s-loaded="true" style="">
+<div id="content" class="__reader_view_article_wrap_3221038094998083__">
+<p class="course">CS 3100 – <i>Data Structures and Algorithms</i></p>
+<h1>Project #2 – Managing a Hierarchy using a General Tree</h1>
+<h2>Learning Objectives</h2>
+<ul>
+<li>Apply object-oriented programming concepts in C++</li>
+<li>Choose and implement an appropriate internal representation for a specified abstract data type</li>
+<li>Design, implement, and use a general tree data structure</li>
+<li>Analyze operations for time complexity</li>
+</ul>
+<h2>Overview</h2>
+<p>Your task for this assignment is to implement a general tree that can store, manipulate, and query the organizational chart for a company. The organizational chart contains the title and full name of every employee in the company. The structure of the chart shows who works for whom within the company. For example, the following organizational chart might represent the fictional company <i>Magic Bags, Incorporated (MBI)</i>:</p>
+<p><img src="./Project #2_files/OrgChart.jpg" alt="See instructor for details" width="600"></p>
+<h2>The Organization Tree</h2>
+<p>You will store the organization chart as a general tree. You may choose any of the general tree implementations we have discussed in class. Your tree should satisfy the following specifications:</p>
+<ul>
+<ul>
+<li>So that we can test your code, we need to know if you will use a TreeNode* (for linked implementations) or an unsigned integer (for array implementations) to point to a TreeNode. In your OrgTree.h file, you should use one of the following two code blocks:
+<p>For array-based implementations, you should use:</p>
+<blockquote class="code">
+<pre>#define TREENODEPTR unsigned int
+#define TREENULLPTR -1
+</pre>
+</blockquote>
+<p>For linked node implementations, you should use:</p>
+<blockquote class="code">
+<pre>#define TREENODEPTR TreeNode*
+#define TREENULLPTR NULL
+</pre>
+</blockquote>
+</li>
+<li>Each tree node should store a title and a name. You can use the C++ string class for both of these data elements. (Don't forget to <tt><b>#include &lt;string&gt;</b></tt>)</li>
+</ul>
+</ul>
+<br>
+<ul>
+<ul>
+<li><tt><b>void OrgTree::addRoot(title, name)</b></tt> – Creates a root node for the tree. If the tree already has a root, the entire tree becomes a subtree of the new root.</li>
+</ul>
+</ul>
+<br>
+<ul>
+<ul>
+<li><tt><b>unsigned int OrgTree::getSize()</b></tt> – Returns the number of employees in the tree.</li>
+</ul>
+</ul>
+<br>
+<ul>
+<ul>
+<li><tt><b>TREENODEPTR OrgTree::getRoot()</b></tt> – Returns a pointer to the root node in the tree. Depending on your implementation, this function may return a TreeNode* or an unsigned integer that will be used as an array index.</li>
+</ul>
+</ul>
+<br>
+<ul>
+<ul>
+<li><tt><b>TREENODEPTR OrgTree::leftmostChild(TREENODEPTR node)</b></tt> – Returns a pointer to the leftmost child of the node passed to the function. If the node has no children, returns TREENULLPTR.</li>
+</ul>
+</ul>
+<br>
+<ul>
+<ul>
+<li><tt><b>TREENODEPTR OrgTree::rightSibling(TREENODEPTR node)</b></tt> – Returns a pointer to the right sibling of the node passed to the function. If the node has no right sibling, returns TREENULLPTR.</li>
+</ul>
+</ul>
+<br>
+<ul>
+<ul>
+<li><tt><b>void OrgTree::printSubTree(TREENODEPTR subTreeRoot)</b></tt> – print out the subtree starting at the node pointed to by subTreeRoot. This function should use indentation to show the tree structure. For example, if you called printSubTree on the tree shown above, and passed it a pointer to the "VP Sales" node, you would see the following:</li>
+</ul>
+</ul>
+<blockquote class="code">
+<pre>VP Sales: Mark Zuckerberg
+	Director of Marketing: George Lucas
+		Digital Media Specialist: Al Gore
+		Head of Television and Print Advertising: George R.R. Martin
+	Director of Public Relations: Kurt Vonnegut
+</pre>
+</blockquote>
+<ul>
+<ul>
+<li><tt><b>TREENODEPTR OrgTree::find(title)</b></tt> – returns a TREENODEPTR to the node listing the given title (exact string match with the title string in a TreeNode object). If the title is not found, the function should return TREENULLPTR. For simplicity, you may assume that all titles in the company are unique.</li>
+</ul>
+</ul>
+<br>
+<ul>
+<li><tt><b>bool OrgTree::read(filename)</b></tt> – reads an organization tree from a file. The file will contain one tree node per line, except for lines containing only ')' characters, which mark the ends of subtrees. The organization tree illustrated above would be represented by the file shown below. If the file is found and read successfully, this function should return <b>true</b>. If the file is not found or the file is improperly formatted, the function should return <b>false</b>.
+<blockquote class="code">
+<pre>President, George Orwell
+VP Sales, Mark Zuckerberg
+Director of Marketing, George Lucas
+Digital Media Specialist, Al Gore
+)
+Head of Television and Print Advertising, George Martin
+)
+)
+Director of Public Relations, Kurt Vonnegut
+)
+)
+VP Operations, Bill Gates
+)
+VP Software Development, Ayn Rand
+MagicBag Team Leader, Wil Wheaton
+Software Engineer I, Donald Knuth
+)
+Software Engineer II, Marvin Minsky
+)
+)
+Cloud Development, Bob Ross
+)
+)
+)
+</pre>
+</blockquote>
+</li>
+<li><tt><b>void OrgTree::write(filename)</b></tt> – write out the OrgTree to a file, using the same file format described in the read() function above.</li>
+<li></li>
+<li><tt><b>void OrgTree::hire(TREENODEPTR, newTitle, newName)</b></tt> – Hire an employee. The employee should be added to the tree as the last child of the node pointed to by TREENODEPTR.</li>
+<li></li>
+<li><tt><b>bool OrgTree::fire(formerTitle)</b></tt> – Fire the employee who's title matches the argument to this function. If the title is found the employee's node in the tree is deleted and the function returns <b>true</b>. All employees of the fired employee now work directly for the fired employee's boss (e.g. all children of the deleted node become children of the deleted node's parent). If no match is found the function returns <b>false</b>. For simplicity, you can assume that titles in the company are unique. Note that you cannot fire the root node. If the formerTitle matches the root node, the function should return <b>false</b>.</li>
+<li></li>
+<li>Your tree should be able to hold any number of employees. If you use an array-based tree implementation, your array must re-size when full.</li>
+</ul>
+<h2>Analysis and Documentation</h2>
+<ul>
+<li>Each class and function should have appropriate header documentation/comments</li>
+<li>Each of the functions specified above must include the asymptotic run time, in Θ(<i>n</i>) notation, for a tree of size <i>n</i>, in the header comment block of the function.</li>
+<li>The OrgTree class comment block should include the space requirement for a tree of <i>n</i> employees.</li>
+</ul>
+<h2>Turn in and Grading</h2>
+<ul>
+<li>Your OrgTree class should be implemented as a separate .h and .cpp file.</li>
+<li>If you define other classes, (such as TreeNode) you may use a separate, inline class, or a class defined entirely within Class OrgTree.</li>
+<li>Zip your entire project directory and turn it in via pilot. Make sure that all your files are included. Remember that code that will not compile will receive a grade of zero.</li>
+</ul>
+<p>This Project is worth 50 points, distributed as follows:</p>
+<table class="table_stripes" border="1" cellspacing="0" cellpadding="0" style="width: 100%;">
+<tbody>
+<tr>
+<td><b>Task</b></td>
+<td style="text-align: center;"><b>Points</b></td>
+</tr>
+<tr>
+<td><tt><b>addRoot()</b></tt> functions correctly and creates a valid OrgTree object</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td><tt><b>getSize()</b></tt> correctly returns the size for any OrgTree object</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td><tt><b>getRoot()</b></tt> returns a pointer to the root of the tree</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td><tt><b>leftmostChild()</b></tt> returns a pointer to the leftmost child of a node, or TREENULLPTR for nodes with no children</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td><tt><b>rightSibling()</b></tt> returns a pointer to the right sibling of a node, or TREENULLPTR for nodes with no right sibling</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td><tt><b>printSubTree()</b></tt> correctly prints the appropriate subtree, with correct indentation</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td><tt><b>find()</b></tt> correctly finds the node matching the given title, or returns TREENULLPTR if the title is not found in the tree</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td><tt><b>read()</b></tt> correctly reads and creates a tree from a properly formatted data file, or returns <b>false</b> if the file is not found or incorrectly formatted</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td><tt><b>write()</b></tt> correctly writes the tree to a properly formatted data file</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td><tt><b>hire()</b></tt> correctly inserts a new node into the tree</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td><tt><b>fire()</b></tt> correctly deletes a node from the tree, moving all employees to the parent node, or returns <b>false</b> if the formerTitle is not found or matches the root node of the tree</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td>The tree can store any number of employees, subject to the amount of RAM available to the program</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td>Your code is well organized, clearly written, and well-documented</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td>The asymptotic run time for each member function and the space requirements of your tree are included in the documentation.</td>
+<td style="text-align: center;">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</body></html>
