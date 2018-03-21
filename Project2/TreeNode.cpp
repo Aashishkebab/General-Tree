@@ -17,10 +17,14 @@ void TreeNode::setLeftmostChild(TreeNode* node){
 	this->leftmostChild = node;
 }
 
-TreeNode * TreeNode::getLeftmostChild(){
+void TreeNode::setRightSibling(TreeNode* node){
+	this->rightSibling = node;
+}
+
+TreeNode* TreeNode::getLeftmostChild(){
 	return this->leftmostChild;
 }
 
-TreeNode * TreeNode::getRightSibling(){
+TreeNode* TreeNode::getRightSibling(){
 	return this->rightSibling;
 }

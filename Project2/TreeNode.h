@@ -15,6 +15,7 @@ public:
 	~TreeNode();
 
 	void setLeftmostChild(TreeNode* node);
+	void setRightSibling(TreeNode * node);
 	TreeNode* getLeftmostChild();
 	TreeNode* getRightSibling();
 };

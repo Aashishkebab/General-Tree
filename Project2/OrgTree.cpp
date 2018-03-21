@@ -17,7 +17,7 @@ void OrgTree::addRoot(std::string title, std::string name){
 	else{
 		TreeNode* temp = this->root;
 		this->root = new TreeNode(title, name);
-		this->root->setLeftmostChild(temp);
+		this->root->setLeftmostChild(temp)
 	}
 	return;
 }
@@ -43,7 +43,7 @@ void OrgTree::printSubTree(TREENODEPTR subTreeRoot){
 }
 
 TREENODEPTR OrgTree::find(std::string title){
-	return new TreeNode();
+
 }
 
 bool OrgTree::read(std::string){
@@ -54,8 +54,13 @@ void OrgTree::write(std::string){
 
 }
 
-void OrgTree::hire(TREENODEPTR newHire, std::string newTitle, std::string newName){
+void OrgTree::hire(TREENODEPTR parent, std::string newTitle, std::string newName){
 	//TODO - Add to last child of TREENODEPTR
+	TREENODEPTR temp = parent->getLeftmostChild();
+	while(temp->getRightSibling()){
+		temp = temp->getRightSibling();
+	}
+	temp->setRightSibling(temp);
 }
 
 bool OrgTree::fire(std::string formerTitle){
