@@ -16,6 +16,7 @@ public:
 
 	void addRoot(std::string title, std::string name);
 	unsigned int getSize();
+	unsigned int getSize(TreeNode * leftChild, unsigned int sum);
 	TREENODEPTR getRoot();
 	TREENODEPTR leftmostChild(TREENODEPTR node);
 	TREENODEPTR rightSibling(TREENODEPTR node);

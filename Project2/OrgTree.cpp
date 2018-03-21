@@ -12,7 +12,7 @@ OrgTree::~OrgTree(){
 
 void OrgTree::addRoot(std::string title, std::string name){
 	if(!this->root == TREENULLPTR){
-		this->root = static_cast<TreeNode*>(dynamic_cast<TreeNode*>((TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)new TreeNode(title, name)));
+		this->root = new TreeNode(title, name);
 	}
 	else{
 		TreeNode* temp = this->root;
@@ -23,7 +23,22 @@ void OrgTree::addRoot(std::string title, std::string name){
 }
 
 unsigned int OrgTree::getSize(){
-	return 0;
+	return getSize(this->root, 0);
+}
+
+unsigned int OrgTree::getSize(TreeNode* child, unsigned int sum){
+	if(child->getRightSibling()){
+		sum += getSize(child->getRightSibling, sum);
+	}
+
+	TreeNode* temp = child;
+	while(temp->getLeftmostChild()){
+		temp = temp->getLeftmostChild();
+		if(temp->getRightSibling()){
+			sum += getSize(temp, sum);
+		}
+		sum++;
+	}
 }
 
 TREENODEPTR OrgTree::getRoot(){
@@ -48,7 +63,7 @@ TREENODEPTR OrgTree::find(std::string title){
 
 TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
 	if(parent->getLeftmostChild()){
-		find(title, parent->getLeftmostChild());
+		return find(title, parent->getLeftmostChild());
 	}
 
 	TreeNode* temp = parent;
@@ -56,7 +71,7 @@ TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
 	while(temp->getRightSibling()){
 		temp = temp->getRightSibling();
 		if(temp->getLeftmostChild()){
-			find(title, temp->getLeftmostChild());
+			return find(title, temp);
 		}
 		if(temp->getTitle() == title){
 			return temp;
