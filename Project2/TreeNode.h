@@ -18,5 +18,8 @@ public:
 	void setRightSibling(TreeNode * node);
 	TreeNode* getLeftmostChild();
 	TreeNode* getRightSibling();
+
+	std::string getTitle();
+	std::string getName();
 };
 

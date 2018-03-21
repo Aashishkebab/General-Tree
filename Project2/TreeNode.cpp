@@ -28,3 +28,11 @@ TreeNode* TreeNode::getLeftmostChild(){
 TreeNode* TreeNode::getRightSibling(){
 	return this->rightSibling;
 }
+
+std::string TreeNode::getTitle(){
+	return this->title;
+}
+
+std::string TreeNode::getName(){
+	return this->name;
+}

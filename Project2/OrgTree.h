@@ -21,6 +21,7 @@ public:
 	TREENODEPTR rightSibling(TREENODEPTR node);
 	void printSubTree(TREENODEPTR subTreeRoot);
 	TREENODEPTR find(std::string title);
+	TREENODEPTR find(std::string title, TreeNode * parent);
 	bool read(std::string);
 	void write(std::string);
 	void hire(TREENODEPTR, std::string newTitle, std::string newName);
