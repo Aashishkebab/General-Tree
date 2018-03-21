@@ -6,11 +6,13 @@
 
 OrgTree::OrgTree(){}
 
-OrgTree::~OrgTree(){}
+OrgTree::~OrgTree(){
+	delete this->root;
+}
 
 void OrgTree::addRoot(std::string title, std::string name){
 	if(!this->root == TREENULLPTR){
-		this->root = (TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)new TreeNode(title, name);
+		this->root = static_cast<TreeNode*>(dynamic_cast<TreeNode*>((TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)(TreeNode*)(TREENODEPTR)new TreeNode(title, name)));
 	}
 	else{
 		TreeNode* temp = this->root;
