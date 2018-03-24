@@ -21,6 +21,7 @@ public:
 	TREENODEPTR leftmostChild(TREENODEPTR node);
 	TREENODEPTR rightSibling(TREENODEPTR node);
 	void printSubTree(TREENODEPTR subTreeRoot);
+	void printChildren(TREENODEPTR leftChild, unsigned short numberOfTabs);
 	TREENODEPTR find(std::string title);
 	TREENODEPTR find(std::string title, TreeNode * parent);
 	bool read(std::string);

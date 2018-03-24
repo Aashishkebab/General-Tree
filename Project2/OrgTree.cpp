@@ -63,8 +63,33 @@ TREENODEPTR OrgTree::rightSibling(TREENODEPTR node){
 	return node->getRightSibling();
 }
 
-void OrgTree::printSubTree(TREENODEPTR subTreeRoot){
-	std::cout << "Printamafying";
+void OrgTree::printSubTree(TREENODEPTR subTreeRoot){	//This ideally should be a static function
+	TreeNode* current = subTreeRoot;
+	std::cout << std::endl << subTreeRoot->getTitle() << ": " << subTreeRoot->getName();
+
+	printChildren(subTreeRoot->getLeftmostChild(), 1);
+}
+
+void OrgTree::printChildren(TREENODEPTR leftChild, unsigned short numberOfTabs){	//This should also be a static function
+	std::cout << std::endl;
+
+	TreeNode* temp = leftChild;
+
+	while(temp){
+		for(unsigned short i = 0; i < numberOfTabs; i++){
+			std::cout << "\t";
+		}
+		std::cout << temp->getTitle() << ": " << temp->getName();
+
+		if(temp->getLeftmostChild()){
+			printChildren(temp->getLeftmostChild());
+		}
+		else{
+			std::cout << "\n";
+		}
+
+		temp = temp->getRightSibling();
+	}
 }
 
 TREENODEPTR OrgTree::find(std::string title){
