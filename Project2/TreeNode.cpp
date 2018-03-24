@@ -21,12 +21,20 @@ void TreeNode::setRightSibling(TreeNode* node){
 	this->rightSibling = node;
 }
 
+void TreeNode::setParent(TreeNode* node){
+	this->parent = node;
+}
+
 TreeNode* TreeNode::getLeftmostChild(){
 	return this->leftmostChild;
 }
 
 TreeNode* TreeNode::getRightSibling(){
 	return this->rightSibling;
+}
+
+TreeNode* TreeNode::getParent(){
+	return this->parent;
 }
 
 std::string TreeNode::getTitle(){

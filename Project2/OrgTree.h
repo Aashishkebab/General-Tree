@@ -9,7 +9,7 @@
 class OrgTree{
 private:
 	TREENODEPTR root;
-
+	unsigned int size;
 public:
 	OrgTree();
 	~OrgTree();

@@ -8,6 +8,7 @@ private:
 
 	TreeNode* leftmostChild;
 	TreeNode* rightSibling;
+	TreeNode* parent;
 
 public:
 	TreeNode();
@@ -16,8 +17,11 @@ public:
 
 	void setLeftmostChild(TreeNode* node);
 	void setRightSibling(TreeNode * node);
+	void setParent(TreeNode * node);
+
 	TreeNode* getLeftmostChild();
 	TreeNode* getRightSibling();
+	TreeNode * getParent();
 
 	std::string getTitle();
 	std::string getName();
