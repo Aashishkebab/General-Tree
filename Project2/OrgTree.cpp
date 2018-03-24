@@ -106,6 +106,10 @@ TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
 		return find(title, parent->getLeftmostChild());	//If this child has children, recurse through them
 	}
 
+	if(parent->getTitle() == title){
+		return parent;
+	}
+
 	TreeNode* temp = parent;
 
 	while(temp->getRightSibling()){	//If there exists a right sibling t this item
