@@ -82,7 +82,7 @@ void OrgTree::printChildren(TREENODEPTR leftChild, unsigned short numberOfTabs){
 		std::cout << temp->getTitle() << ": " << temp->getName();
 
 		if(temp->getLeftmostChild()){
-			printChildren(temp->getLeftmostChild());
+			printChildren(temp->getLeftmostChild(), numberOfTabs + 1);
 		}
 		else{
 			std::cout << "\n";
@@ -109,12 +109,12 @@ TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
 	TreeNode* temp = parent;
 
 	while(temp->getRightSibling()){	//If there exists a right sibling t this item
+		if(temp->getTitle() == title){
+			return temp;
+		}
 		temp = temp->getRightSibling();	//Iterate the temp pointer to the right sibling
 		if(temp->getLeftmostChild()){	//Check if the next sibling has children
 			return find(title, temp);	//If this sibling has children, recurse through them
-		}
-		if(temp->getTitle() == title){
-			return temp;
 		}
 	}
 	return nullptr;	//Outside function should handle this
@@ -130,11 +130,16 @@ void OrgTree::write(std::string){
 
 void OrgTree::hire(TREENODEPTR parent, std::string newTitle, std::string newName){
 	TREENODEPTR temp = parent->getLeftmostChild();
-	while(temp->getRightSibling()){
-		temp = temp->getRightSibling();
+	if(temp){
+		while(temp->getRightSibling()){
+			temp = temp->getRightSibling();
+		}
+		temp->setRightSibling(new TreeNode(newTitle, newName));
+		temp->getRightSibling()->setParent(parent);
 	}
-	temp->setRightSibling(new TreeNode(newTitle, newName));
-	temp->getRightSibling()->setParent(parent);
+	else{
+		parent->setLeftmostChild(new TreeNode(newTitle, newName));
+	}
 
 	this->size++;
 }
