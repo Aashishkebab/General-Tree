@@ -102,29 +102,28 @@ bottom of the tree. Then it will
 iterate through all the right siblings
 *********************************/
 TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
-	if(parent->getTitle() == title){
-		return parent;
-	}
-
-	if(parent->getLeftmostChild()){
-		return find(title, parent->getLeftmostChild());	//If this child has children, recurse through them
-	}
-
-	if(parent->getTitle() == title){
-		return parent;
-	}
-
 	TreeNode* temp = parent;
 
-	while(temp->getRightSibling()){	//If there exists a right sibling t this item
+	while(temp){
 		if(temp->getTitle() == title){
 			return temp;
 		}
-		temp = temp->getRightSibling();	//Iterate the temp pointer to the right sibling
-		if(temp->getLeftmostChild()){	//Check if the next sibling has children
-			return find(title, temp);	//If this sibling has children, recurse through them
-		}
+
+		temp = temp->getRightSibling();
 	}
+
+	temp = parent;
+	TreeNode* result;
+	while(temp){
+		if(temp->getLeftmostChild()){
+			result = find(title, temp->getLeftmostChild());
+			if(result){
+				return result;
+			}
+		}
+		temp = temp->getRightSibling();
+	}
+
 	return nullptr;	//Outside function should handle this
 }
 
