@@ -102,6 +102,10 @@ bottom of the tree. Then it will
 iterate through all the right siblings
 *********************************/
 TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
+	if(parent->getTitle() == title){
+		return parent;
+	}
+
 	if(parent->getLeftmostChild()){
 		return find(title, parent->getLeftmostChild());	//If this child has children, recurse through them
 	}
