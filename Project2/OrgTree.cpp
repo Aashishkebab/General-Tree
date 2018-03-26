@@ -146,6 +146,7 @@ void OrgTree::hire(TREENODEPTR parent, std::string newTitle, std::string newName
 	}
 	else{
 		parent->setLeftmostChild(new TreeNode(newTitle, newName));
+		parent->getLeftmostChild()->setParent(parent);
 	}
 
 	this->size++;
@@ -155,13 +156,13 @@ bool OrgTree::fire(std::string formerTitle){
 	TreeNode* itemToFire = find(formerTitle);
 	TreeNode* leftSibling = itemToFire->getParent()->getLeftmostChild();	//To find left sibling of itemToFire
 
-	if(itemToFire->getParent()->getLeftmostChild() != itemToFire){	//If item to fire is not leftmost child of its parent
+	if(leftSibling != itemToFire){	//If item to fire is not leftmost child of its parent
 		while(leftSibling->getRightSibling() != itemToFire){
 			leftSibling = leftSibling->getRightSibling();
 		}
 		leftSibling->setRightSibling(itemToFire->getRightSibling());
 	}
-	else{	//If item to fire is not leftmost child of its parent
+	else{	//If item to fire is leftmost child of its parent
 		itemToFire->getParent()->setLeftmostChild(itemToFire->getRightSibling());
 	}
 
