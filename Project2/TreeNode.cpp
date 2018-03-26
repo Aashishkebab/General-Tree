@@ -44,3 +44,17 @@ std::string TreeNode::getTitle(){
 std::string TreeNode::getName(){
 	return this->name;
 }
+
+void TreeNode::addChild(TreeNode* theChild){
+	if(this->leftmostChild){
+		TreeNode* temp = this->leftmostChild;
+
+		while(temp->rightSibling){
+			temp = temp->rightSibling;
+		}
+		temp->rightSibling = theChild;
+	}
+	else{
+		this->leftmostChild = theChild;
+	}
+}

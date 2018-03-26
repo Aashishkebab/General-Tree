@@ -25,5 +25,7 @@ public:
 
 	std::string getTitle();
 	std::string getName();
+
+	void addChild(TreeNode* theChild);
 };
 

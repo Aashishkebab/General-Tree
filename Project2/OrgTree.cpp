@@ -2,6 +2,9 @@
 #include "OrgTree.h"
 #include <string>
 #include <iostream>
+#include <fstream>
+
+static TreeNode* getRightmostItem(TreeNode* parent);
 
 
 OrgTree::OrgTree(){
@@ -127,8 +130,36 @@ TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
 	return nullptr;	//Outside function should handle this
 }
 
-bool OrgTree::read(std::string){
-	return false;
+
+TREENODEPTR readTree(std::ifstream &inFile){	//Causes memory leak if previous tree existed
+	std::string newTitle, newName, junk;
+	if(inFile.peek() == ')')
+		return nullptr;
+	std::getline(inFile, newTitle, ','); 
+	std::getline(inFile, newName);
+	TREENODEPTR subroot = new TreeNode(newTitle, newName);
+	while(inFile.peek() != ')'){
+		subroot->addChild(readTree(inFile));
+	}
+	getline(inFile, junk); // Read the ‘)’ char
+	return subroot;
+}
+
+
+bool OrgTree::read(std::string filename){
+	std::ifstream inFile;
+	inFile.open(filename);
+	if(!inFile){
+		return false;
+	}
+	this->root = readTree(inFile);
+
+	if(this->root){
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 void OrgTree::write(std::string){
@@ -153,7 +184,15 @@ void OrgTree::hire(TREENODEPTR parent, std::string newTitle, std::string newName
 }
 
 bool OrgTree::fire(std::string formerTitle){
+	if(formerTitle == this->root->getTitle()){
+		return false;
+	}
+
 	TreeNode* itemToFire = find(formerTitle);
+	if(!itemToFire){
+		return false;
+	}
+
 	TreeNode* leftSibling = itemToFire->getParent()->getLeftmostChild();	//To find left sibling of itemToFire
 
 	if(leftSibling != itemToFire){	//If item to fire is not leftmost child of its parent
@@ -166,15 +205,21 @@ bool OrgTree::fire(std::string formerTitle){
 		itemToFire->getParent()->setLeftmostChild(itemToFire->getRightSibling());
 	}
 
-	if(itemToFire->getLeftmostChild()){
-		TreeNode* child = itemToFire->getLeftmostChild();
-		while(child){
-			child->setParent(itemToFire->getParent());
-			child = child->getRightSibling();
-		}
-	}
+	getRightmostItem(itemToFire->getParent())->setRightSibling(itemToFire->getLeftmostChild());
 
 	delete itemToFire;
 
-	return false;
+	return true;
+}
+
+static TreeNode* getRightmostItem(TreeNode* parent){
+	if(!parent){
+		throw "No parent here";
+	}
+
+	TreeNode* temp = parent->getLeftmostChild();
+	while(temp->getRightSibling()){
+		temp = temp->getRightSibling();
+	}
+	return temp;
 }
