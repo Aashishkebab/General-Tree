@@ -14,8 +14,8 @@ Space complexity:
 *********************************************/
 class OrgTree{
 private:
-	TREENODEPTR root;
-	unsigned int size;
+	TREENODEPTR root;	//Pointer to root of tree
+	unsigned int size;			//Counter that tracks how large the tree is
 public:
 	OrgTree();
 	~OrgTree();

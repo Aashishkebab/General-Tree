@@ -9,9 +9,8 @@ Space complexity:
 *********************************************/
 class TreeNode{
 private:
-	std::string name;
-	std::string title;
-	//Aashish - I was thinking of using character arrays. And then I realized sanity was an option.
+	std::string name;	//Name of the person
+	std::string title;	//Title of role of the person
 
 	TreeNode* leftmostChild;
 	TreeNode* rightSibling;

@@ -31,14 +31,14 @@ Purpose:	Adds a new root to the tree.
 Time Complexity: Theta(1)
 *****************************************/
 void OrgTree::addRoot(std::string title, std::string name){
-	this->size++;
-	if(!this->root == TREENULLPTR){
+	this->size++;	//We have added a node, so we need to increase the size counter.
+	if(!this->root == TREENULLPTR){	//If there is no root (aka root is null)
 		this->root = new TreeNode(title, name);
 	}
-	else{
-		TreeNode* temp = this->root;
+	else{	//If there is already a root
+		TREENODEPTR temp = this->root;
 		this->root = new TreeNode(title, name);
-		this->root->setLeftmostChild(temp);
+		this->root->setLeftmostChild(temp);	//Add the previous root as a child of the new root
 	}
 	return;
 }
@@ -49,7 +49,6 @@ Time Complexity: Theta(1)
 *****************************************/
 unsigned int OrgTree::getSize(){
 	return this->size;
-	//return getSize(this->root, 0);
 }
 
 /*****************************************
@@ -84,10 +83,14 @@ Purpose:	Traverses and prints the tree.
 Inherited Time Complexity: Theta(n)
 *****************************************/
 void OrgTree::printSubTree(TREENODEPTR subTreeRoot){	//This ideally should be a static function
-	TreeNode* current = subTreeRoot;
+	if(!subTreeRoot){
+		std::cout << "\nThere are no nodes..." << std::endl;
+		return;
+	}
+
 	std::cout << std::endl << subTreeRoot->getTitle() << ": " << subTreeRoot->getName();
 
-	printChildren(subTreeRoot->getLeftmostChild(), 1);
+	printChildren(subTreeRoot->getLeftmostChild(), 1);	//Call the recursive print function with 1 tab space
 }
 
 /*****************************************
@@ -101,19 +104,19 @@ static void printChildren(TREENODEPTR leftChild, unsigned short numberOfTabs){	/
 	TreeNode* temp = leftChild;
 
 	while(temp){
-		for(unsigned short i = 0; i < numberOfTabs; i++){
+		for(unsigned short i = 0; i < numberOfTabs; i++){	//Print tab a certain number of times
 			std::cout << "\t";
 		}
 		std::cout << temp->getTitle() << ": " << temp->getName();
 
-		if(temp->getLeftmostChild()){
+		if(temp->getLeftmostChild()){	//If there is a child, recurse on that child
 			printChildren(temp->getLeftmostChild(), numberOfTabs + 1);
 		}
 		else{
 			std::cout << "\n";
 		}
 
-		temp = temp->getRightSibling();
+		temp = temp->getRightSibling();	//Repeat this loop on the next sibling
 	}
 }
 
@@ -138,19 +141,18 @@ TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
 	TreeNode* temp = parent;
 
 	while(temp){
-		if(temp->getTitle() == title){
+		if(temp->getTitle() == title){	//Iterate through all top level items
 			return temp;
 		}
-
 		temp = temp->getRightSibling();
 	}
 
 	temp = parent;
 	TreeNode* result;
 	while(temp){
-		if(temp->getLeftmostChild()){
+		if(temp->getLeftmostChild()){	//If children exist, recursively perform this subroutine on these children
 			result = find(title, temp->getLeftmostChild());
-			if(result){
+			if(result){	//Return only of the result of the recursion actually exists, otherwise keep going
 				return result;
 			}
 		}
@@ -176,7 +178,7 @@ TREENODEPTR readTree(std::ifstream &inFile){	//Causes memory leak if previous tr
 	}
 	getline(inFile, junk); // Read the ‘)’ char
 	return subroot;
-}
+}	//I didn't write this function. It was given by Raymer. I did modify it slightly.
 
 /*****************************************
 Purpose:	Reads tree from the file "filename"
@@ -206,8 +208,8 @@ static void writeTheTree(std::ofstream& file, TreeNode* parent){
 	TreeNode* temp = parent;
 
 	while(temp){
-		file << temp->getTitle() << "\n";
-		if(temp->getLeftmostChild()){
+		file << temp->getTitle() << ", " << temp->getName() << "\n";
+		if(temp->getLeftmostChild()){	//If the node has a child, recursively perform this function on that child
 			writeTheTree(file, temp->getLeftmostChild());
 		}
 		temp = temp->getRightSibling();
@@ -233,10 +235,22 @@ Worst case time complexity: Theta(n)
 Best Case time complexity: Theta(1)
 *****************************************/
 void OrgTree::hire(TREENODEPTR parent, std::string newTitle, std::string newName){
+	if(!parent){
+		std::cout << "\nCould not hire " << newName << std::endl;
+		return;
+	}
+
 	TREENODEPTR temp = parent->getLeftmostChild();
 	if(temp){
-		while(temp->getRightSibling()){
-			temp = temp->getRightSibling();
+		//while(temp->getRightSibling()){	//Find the rightmost item
+		//	temp = temp->getRightSibling();
+		//}
+		try{
+			temp = getRightmostItem(parent);
+		}
+		catch(std::string e){
+			std::cout << "\nCould not hire " << newName << std::endl;
+			return;
 		}
 		temp->setRightSibling(new TreeNode(newTitle, newName));
 		temp->getRightSibling()->setParent(parent);
@@ -295,9 +309,13 @@ Time complexity: Theta(n)
 static TreeNode* getRightmostItem(TreeNode* parent){
 	if(!parent){
 		throw "No parent here";
+		return nullptr;
 	}
 
 	TreeNode* temp = parent->getLeftmostChild();
+	if(!temp){
+		return TREENULLPTR;
+	}
 	while(temp->getRightSibling()){
 		temp = temp->getRightSibling();
 	}
