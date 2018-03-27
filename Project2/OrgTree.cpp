@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 
-static TreeNode* getRightmostItem(TreeNode* parent);
+static TREENODEPTR getRightmostItem(TREENODEPTR parent);
 static void printChildren(TREENODEPTR leftChild, unsigned short numberOfTabs);
 
 /*****************************************
@@ -101,7 +101,7 @@ Time Complexity: Theta(n)
 static void printChildren(TREENODEPTR leftChild, unsigned short numberOfTabs){	//This should also be a static function
 	std::cout << std::endl;
 
-	TreeNode* temp = leftChild;
+	TREENODEPTR temp = leftChild;
 
 	while(temp){
 		for(unsigned short i = 0; i < numberOfTabs; i++){	//Print tab a certain number of times
@@ -123,7 +123,7 @@ static void printChildren(TREENODEPTR leftChild, unsigned short numberOfTabs){	/
 /*****************************************
 Purpose:	Returns pointer to node with given title.
 				Returns the first node it finds.
-Inherited Time Complexity:	Inherits from find(string, TreeNode*)
+Inherited Time Complexity:	Inherits from find(string, TREENODEPTR)
 	Worst Case time complexity:	Theta(n)
 	Best Case time complexity:		Theta(1)
 *****************************************/
@@ -137,8 +137,8 @@ Purpose:	Returns pointer to node with given title.
 Worst Case time complexity:	Theta(n)
 Best Case time complexity:		Theta(1)
 *****************************************/
-TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
-	TreeNode* temp = parent;
+TREENODEPTR OrgTree::find(std::string title, TREENODEPTR parent){
+	TREENODEPTR temp = parent;
 
 	while(temp){
 		if(temp->getTitle() == title){	//Iterate through all top level items
@@ -148,7 +148,7 @@ TREENODEPTR OrgTree::find(std::string title, TreeNode* parent){
 	}
 
 	temp = parent;
-	TreeNode* result;
+	TREENODEPTR result;
 	while(temp){
 		if(temp->getLeftmostChild()){	//If children exist, recursively perform this subroutine on these children
 			result = find(title, temp->getLeftmostChild());
@@ -204,8 +204,8 @@ bool OrgTree::read(std::string filename){
 Purpose:	Writes tree to file starting at given parent
 Time complexity: Theta(n)
 *****************************************/
-static void writeTheTree(std::ofstream& file, TreeNode* parent){
-	TreeNode* temp = parent;
+static void writeTheTree(std::ofstream& file, TREENODEPTR parent){
+	TREENODEPTR temp = parent;
 
 	while(temp){
 		file << temp->getTitle() << ", " << temp->getName() << "\n";
@@ -268,7 +268,7 @@ Purpose:	Deletes node with given title,
 				then shifts other nodes around
 				to ensure tree continuity
 Inherited time complexity:	Inherits from find(string) and
-												inherits from (getRightmostItem(TreeNode*))
+												inherits from (getRightmostItem(TREENODEPTR))
 Worst case time complexity: Theta(n)
 Best case time complexity: Theta(1)
 *****************************************/
@@ -277,12 +277,12 @@ bool OrgTree::fire(std::string formerTitle){
 		return false;
 	}
 
-	TreeNode* itemToFire = find(formerTitle);
+	TREENODEPTR itemToFire = find(formerTitle);
 	if(!itemToFire){
 		return false;
 	}
 
-	TreeNode* leftSibling = itemToFire->getParent()->getLeftmostChild();	//To find left sibling of itemToFire
+	TREENODEPTR leftSibling = itemToFire->getParent()->getLeftmostChild();	//To find left sibling of itemToFire
 
 	if(leftSibling != itemToFire){	//If item to fire is not leftmost child of its parent
 		while(leftSibling->getRightSibling() != itemToFire){
@@ -306,13 +306,13 @@ Purpose:	Returns pointer to rightmost child
 				of given parent
 Time complexity: Theta(n)
 *****************************************/
-static TreeNode* getRightmostItem(TreeNode* parent){
+static TREENODEPTR getRightmostItem(TREENODEPTR parent){
 	if(!parent){
 		throw "No parent here";
 		return nullptr;
 	}
 
-	TreeNode* temp = parent->getLeftmostChild();
+	TREENODEPTR temp = parent->getLeftmostChild();
 	if(!temp){
 		return TREENULLPTR;
 	}
