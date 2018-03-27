@@ -6,6 +6,12 @@
 #define TREENODEPTR TreeNode*
 #define TREENULLPTR NULL
 
+
+/*********************************************
+Space complexity:
+	Node size:	string x 2, pointer x 3
+	Tree size:		pointer x 1, unsigned int x 1
+*********************************************/
 class OrgTree{
 private:
 	TREENODEPTR root;
@@ -21,7 +27,6 @@ public:
 	TREENODEPTR leftmostChild(TREENODEPTR node);
 	TREENODEPTR rightSibling(TREENODEPTR node);
 	void printSubTree(TREENODEPTR subTreeRoot);
-	void printChildren(TREENODEPTR leftChild, unsigned short numberOfTabs);
 	TREENODEPTR find(std::string title);
 	TREENODEPTR find(std::string title, TreeNode * parent);
 	bool read(std::string);

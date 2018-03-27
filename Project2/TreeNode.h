@@ -1,5 +1,12 @@
 #pragma once
 #include <string>
+
+
+/*********************************************
+Space complexity:
+	Node size:	string x 2, pointer x 3
+	Tree size:		pointer x 1, unsigned int x 1
+*********************************************/
 class TreeNode{
 private:
 	std::string name;
