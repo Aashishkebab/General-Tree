@@ -236,7 +236,8 @@ Best Case time complexity: Theta(1)
 *****************************************/
 void OrgTree::hire(TREENODEPTR parent, std::string newTitle, std::string newName){
 	if(!parent){
-		std::cout << "\nCould not hire " << newName << std::endl;
+		//std::cout << "\nCould not hire " << newName << std::endl;
+		throw "No parent node";
 		return;
 	}
 
@@ -249,7 +250,7 @@ void OrgTree::hire(TREENODEPTR parent, std::string newTitle, std::string newName
 			temp = getRightmostItem(parent);
 		}
 		catch(std::string e){
-			std::cout << "\nCould not hire " << newName << std::endl;
+			std::cout << "\nCouldn't hire " << newName << std::endl;
 			return;
 		}
 		temp->setRightSibling(new TreeNode(newTitle, newName));
